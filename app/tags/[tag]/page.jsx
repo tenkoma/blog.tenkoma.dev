@@ -9,7 +9,8 @@ export async function generateMetadata(props) {
 }
  
 export async function generateStaticParams() {
-  const allTags = await getTags()
+  // const allTags = await getTags() 
+  const allTags = [] // 現在はタグを使っていないので空配列にする
   return [...new Set(allTags)].map(tag => ({ tag }))
 }
  
