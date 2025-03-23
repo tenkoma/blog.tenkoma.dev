@@ -13,7 +13,7 @@ export default async function RootLayout({ children }) {
       <Head backgroundColor={{ dark: '#0f172a', light: '#fefce8' }} />
       <body>
         <Layout>
-          <Navbar pageMap={await getPageMap()}>
+          <Navbar pageMap={await getPageMap('/')}>
             {/* <Search /> */}
             <ThemeSwitch />
           </Navbar>
@@ -22,7 +22,7 @@ export default async function RootLayout({ children }) {
  
           <Footer>
             {new Date().getFullYear()} © tenkoma
-            <a href="/feed.xml" style={{ float: 'right' }}>RSS</a>
+            <a href="/rss.xml" style={{ float: 'right' }}>RSS</a>
           </Footer>
         </Layout>
       </body>
