@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Banner, Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
@@ -21,8 +22,9 @@ export default async function RootLayout({ children }) {
           {children}
  
           <Footer>
-            {new Date().getFullYear()} © tenkoma
-            <a href="/rss.xml" style={{ float: 'right' }}>RSS</a>
+            <Link href={`/`}>blog.tenkoma.dev</Link>
+            <a href="/rss.xml" style={{ float: 'right' }}>RSS</a><br/>
+            <span style={{ float: 'right' }}>{new Date().getFullYear()} © tenkoma</span>
           </Footer>
         </Layout>
       </body>
