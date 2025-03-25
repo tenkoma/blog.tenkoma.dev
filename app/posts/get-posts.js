@@ -23,7 +23,6 @@ async function getAllPosts() {
     })
     posts = posts.concat(directories)
   }
-  console.log(posts)
   return posts
 }
  
