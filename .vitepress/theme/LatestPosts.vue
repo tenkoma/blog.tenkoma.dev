@@ -1,7 +1,8 @@
 <script setup>
 import { data as posts } from '../../content/posts.data'
 
-const latestPosts = posts.slice(0, 10)
+const props = defineProps({ limit: { type: Number, default: 0 } })
+const latestPosts = props.limit ? posts.slice(0, props.limit) : posts
 </script>
 
 <template>

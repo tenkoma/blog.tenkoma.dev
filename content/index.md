@@ -2,5 +2,5 @@
 layout: home
 ---
 
-<LatestPosts />
+<LatestPosts :limit="10" />
 
