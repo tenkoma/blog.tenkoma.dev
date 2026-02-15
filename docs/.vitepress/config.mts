@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   srcDir: "content",
+  cleanUrls: true,
   
   title: "tenkoma's blog",
   description: "tenkoma's blog site",
