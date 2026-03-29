@@ -198,3 +198,8 @@ mise install
 ![](https://blog-attachments.tenkoma.dev/2026/03/mise-use-custom-php/03-mise-install.png)
 
 これでセットアップ完了です。
+
+# 参考ドキュメント
+
+* [GitHub Backend - mise-en-place](https://mise.jdx.dev/dev-tools/backends/github.html)
+* [GitHub Tokens - mise-en-place](https://mise.jdx.dev/dev-tools/github-tokens.html)
