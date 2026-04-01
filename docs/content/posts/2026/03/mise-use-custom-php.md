@@ -36,7 +36,34 @@ permissions:
   contents: write
 
 jobs:
+  resolve-tag:
+    runs-on: ubuntu-24.04
+    outputs:
+      tag: ${{ steps.resolve.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Resolve next build number
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PREFIX="custom-php-v${{ inputs.php_version }}"
+          # List existing tags matching the prefix, extract build numbers
+          EXISTING=$(gh api repos/${{ github.repository }}/git/matching-refs/tags/"$PREFIX" --jq '.[].ref' 2>/dev/null || true)
+          NEXT=0
+          if [ -n "$EXISTING" ]; then
+            # Extract the highest build number from tags like refs/tags/custom-php-v8.5.4.N
+            MAX=$(echo "$EXISTING" | sed "s|refs/tags/${PREFIX}\.||" | sort -n | tail -1)
+            if [ -n "$MAX" ] && [ "$MAX" -eq "$MAX" ] 2>/dev/null; then
+              NEXT=$((MAX + 1))
+            fi
+          fi
+          TAG="${PREFIX}.${NEXT}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved tag: $TAG"
+
   build:
+    needs: resolve-tag
     strategy:
       matrix:
         os: [ubuntu-24.04, macos-15]
@@ -50,20 +77,11 @@ jobs:
 
       - uses: actions/checkout@v6
 
-      # PHP をビルドするときの --prefix パスは利用するときのパスと同一にしたほうがよいので
-      # ビルド時に用意する。
+      # PHP をビルドするときの --prefix パスは利用するときのパスと同一にしたほうがよい
       - name: Create install directories
         run: |
           sudo mkdir -p /opt/mise/data && sudo chown -R "$(id -u):$(id -g)" /opt/mise/data
           mkdir -p $(dirname "$INSTALL_PATH")
-
-      # PHPソースコードをダウンロードし $INSTALL_PATH に展開する(vfox-phpがこのパスを前提にしている)
-      - name: Download/Extract PHP Source
-        run: |
-          curl -Lo ${INSTALL_PATH}_source.tar.gz https://github.com/php/php-src/archive/php-${{ inputs.php_version }}.tar.gz
-          cd $(dirname "$INSTALL_PATH")
-          tar -zxf ${INSTALL_PATH}_source.tar.gz || exit 1
-          mv php-src-php-${{ inputs.php_version }} "${INSTALL_PATH}"
 
       - name: Install build dependencies (Ubuntu)
         if: runner.os == 'Linux'
@@ -71,57 +89,45 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y re2c libxml2-dev libsqlite3-dev \
             libcurl4-openssl-dev libonig-dev libreadline-dev libzip-dev \
-            libpng-dev libgd-dev libpq-dev libicu-dev libgettextpo-dev
+            libpng-dev libgd-dev libpq-dev libicu-dev libgettextpo-dev \
+            libtidy-dev libxslt1-dev
 
       - name: Install build dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install autoconf re2c bison libpng gd icu4c libpq gettext libzip libiconv bzip2 webp
+          brew install autoconf re2c bison pkg-config libpng gd icu4c libpq gettext libzip libiconv bzip2 webp tidy-html5 libxslt
 
-      - name: Checkout vfox-php
-        run: git clone --branch v0.3.0 --depth 1 https://github.com/version-fox/vfox-php.git
+      - name: Checkout php-build
+        run: git clone --depth 1 https://github.com/php-build/php-build.git
 
       - name: Build PHP (Ubuntu)
         if: runner.os == 'Linux'
         env:
           CFLAGS: "-std=gnu17"
-          PHP_CONFIGURE_OPTIONS: >-
-            --with-openssl --with-curl --with-zlib --with-readline
-            --with-gettext --with-webp
+          CXXFLAGS: "-std=c++17"
+          PHP_BUILD_CONFIGURE_OPTS: "--with-gettext --with-webp"
         run: |
-          ./vfox-php/bin/install "$INSTALL_PATH"
+          ./php-build/bin/php-build -v ${{ inputs.php_version }} "$INSTALL_PATH"
 
       - name: Build PHP (macOS)
         if: runner.os == 'macOS'
         run: |
           export CFLAGS="-std=gnu17"
-          export PHP_CONFIGURE_OPTIONS="\
-            --with-openssl=$(brew --prefix openssl@3) \
-            --with-zlib=$(brew --prefix zlib) \
-            --with-readline=$(brew --prefix readline) \
-            --with-libedit=$(brew --prefix libedit) \
+          export CXXFLAGS="-std=c++17 -stdlib=libc++ -DU_USING_ICU_NAMESPACE=1"
+          export PHP_BUILD_CONFIGURE_OPTS="\
             --with-bz2=$(brew --prefix bzip2) \
             --with-iconv=$(brew --prefix libiconv) \
             --with-gettext=$(brew --prefix gettext) \
-            --with-icu-dir=$(brew --prefix icu4c) \
-            --with-libxml=$(brew --prefix libxml2) \
             --with-libzip=$(brew --prefix libzip) \
-            --with-webp=$(brew --prefix webp)"
-          ./vfox-php/bin/install "$INSTALL_PATH"
-
-      - name: Install pie
-        run: |
-          PHP_BIN_DIR=$(php -r 'echo PHP_BINDIR;')
-          php -r "copy('https://github.com/php/pie/releases/latest/download/pie.phar', 'pie.phar');"
-          mv pie.phar "${PHP_BIN_DIR}/pie"
-          chmod +x "${PHP_BIN_DIR}/pie"
-          pie --version
+            --with-webp=$(brew --prefix webp) \
+            --with-zlib=$(brew --prefix zlib) \
+            --with-tidy=$(brew --prefix tidy-html5)"
+          ./php-build/bin/php-build -v ${{ inputs.php_version }} "$INSTALL_PATH"
 
       - name: Install PHP extensions via pie
         run: |
           pie install apcu/apcu
           pie install phpredis/phpredis
-          pie install xdebug/xdebug
 
       - name: Package
         run: |
@@ -135,7 +141,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="custom-php-v${{ inputs.php_version }}"
+          TAG="${{ needs.resolve-tag.outputs.tag }}"
           # リリースが存在しなければ作成
           if ! gh release view "$TAG" > /dev/null 2>&1; then
             gh release create "$TAG" --title "$TAG" --notes "PHP ${{ inputs.php_version }} custom build"
@@ -199,7 +205,17 @@ mise install
 
 これでセットアップ完了です。
 
+# `resolve-tag` job で、バージョン番号を追加
+
+ビルドするごとに `custom-php-v8.5.4.0`, `custom-php-v8.5.4.1`, `custom-php-v8.5.4.2` とReleaseを追加します。
+そうすると、 `mise install` で一番バージョン番号が大きいものを使いますし、 `mise upgrade` で更新できます。
+
 # 参考ドキュメント
 
 * [GitHub Backend - mise-en-place](https://mise.jdx.dev/dev-tools/backends/github.html)
 * [GitHub Tokens - mise-en-place](https://mise.jdx.dev/dev-tools/github-tokens.html)
+
+# 2026/04/01 12:20 更新
+
+* vfox-php を使う場合openssl@1.1に依存しておりEOLを迎えているので、php-buildを使うよう変更した。
+* resolve-tag jobを追加し、 `mise upgrade` で更新可能にした。
