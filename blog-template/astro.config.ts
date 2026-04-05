@@ -83,5 +83,6 @@ export default defineConfig({
   },
   site: SITE,
   base: BASE,
+  trailingSlash: "never",
   output: "static",
 });
