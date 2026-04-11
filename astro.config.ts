@@ -13,10 +13,7 @@ import { BASE, SITE } from "./src/config.ts";
 
 import customEmbeds from "astro-custom-embeds";
 
-import {
-  transformerMetaHighlight,
-  transformerNotationHighlight,
-} from "@shikijs/transformers";
+import { transformerMetaHighlight, transformerNotationHighlight } from "@shikijs/transformers";
 
 import LinkCardEmbed from "./src/embeds/link-card/embed";
 import YoutubeEmbed from "./src/embeds/youtube/embed";
@@ -65,10 +62,7 @@ export default defineConfig({
         dark: "github-dark",
       },
       defaultColor: false,
-      transformers: [
-        transformerMetaHighlight(),
-        transformerNotationHighlight(),
-      ],
+      transformers: [transformerMetaHighlight(), transformerNotationHighlight()],
       wrap: true,
     },
 
