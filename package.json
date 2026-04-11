@@ -11,7 +11,8 @@
     "astro": "astro",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astro-community/astro-embed-utils": "^0.2.0",
@@ -38,6 +39,8 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tailwindcss/typography": "^0.5.15",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "oxfmt": "^0.44.0",
     "oxlint": "^1.59.0",
     "pagefind": "^1.3.0",
@@ -47,5 +50,8 @@
     "yaml-language-server": {
       "yaml": "2.8.3"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,json,mdx,css}": "oxfmt --write"
   }
 }
