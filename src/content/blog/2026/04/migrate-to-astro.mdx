@@ -1,0 +1,24 @@
+---
+title: "このサイトをAstroに移行した"
+description: "このサイトをAstroに移行し、Cloudflare Workersにホスティングを変更した。"
+pubDate: "2026-04-11T14:38"
+published: true
+tags: ["blog", "astro", "dependabot", "oxlint", "oxfmt", "cloudflare workers"]
+---
+
+[2か月前にVitePressに移行した](/posts/2026/02/migrate-to-vitepress)ばかりだけど[Astro](https://astro.build/)のほうがシンプルなブログが作れそうだった。
+また[flo-bit's blog template](https://flo-bit.dev/blog-template/)がシンプルで良さそうだったのでMarkdownファイルだけ残してAstroに移行した。
+
+https://github.com/tenkoma/blog.tenkoma.dev/pull/11
+
+あわせてVercelから[Cloudflare Workers](https://www.cloudflare.com/ja-jp/developer-platform/products/workers/)にホスティングも移行した。
+ブログ記事に使う画像は[Cloudflare R2](https://www.cloudflare.com/ja-jp/developer-platform/products/r2/)にアップロードしている。
+
+ほかにもdependabotやフォーマッタを整備するなどした。
+
+- [chore: Astro 6.1 にアップグレード #14](https://github.com/tenkoma/blog.tenkoma.dev/pull/14)
+- [fix: yaml パッケージの脆弱性を overrides で解消 #15](https://github.com/tenkoma/blog.tenkoma.dev/pull/15)
+- [ci: Dependabot 設定を追加（週次・グループ化） #16](https://github.com/tenkoma/blog.tenkoma.dev/pull/16)
+- [build(deps): bump the all-dependencies group with 6 updates #17](https://github.com/tenkoma/blog.tenkoma.dev/pull/17)
+- [remove: Bluesky 連携機能を削除 #18](https://github.com/tenkoma/blog.tenkoma.dev/pull/18)
+- [oxlint と oxfmt を導入し CI でチェック #19](https://github.com/tenkoma/blog.tenkoma.dev/pull/19)
