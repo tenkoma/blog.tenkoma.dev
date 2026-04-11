@@ -27,9 +27,6 @@ export const NAME = "tenkoma";
 // will be used in the footer as the license of the content (e.g. "All right reserved" or "CC-BY-SA 4.0")
 export const LICENSE = "";
 
-// will be used to identify your bluesky account, so that likes and comments can be shown on your posts
-export const BLUESKY_IDENTIFIER = "tenkoma.net";
-
 export const SOURCE_LINK = 'https://github.com/tenkoma/blog.tenkoma.dev/';
 
 // will be used to set the base color of the blog
