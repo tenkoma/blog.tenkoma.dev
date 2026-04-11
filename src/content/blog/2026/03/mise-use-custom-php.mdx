@@ -11,8 +11,8 @@ tags: ["php", "mise"]
 mise(ミーズ)、プロジェクトディレクトリごとに別々の言語環境をセットアップするのに便利ですが
 PHP環境をセットアップするのは次のような不便な点があります。
 
-* `mise use php@xxx` コマンドをした時点でビルドする(数分かかる)
-* `mise.toml` に [postinstall](https://mise.jdx.dev/hooks.html#preinstall-postinstall-hook)を設定すれば追加のPHP拡張インストールなどもできますが、同じPHPバージョンで異なる構成にする方法は不明
+- `mise use php@xxx` コマンドをした時点でビルドする(数分かかる)
+- `mise.toml` に [postinstall](https://mise.jdx.dev/hooks.html#preinstall-postinstall-hook)を設定すれば追加のPHP拡張インストールなどもできますが、同じPHPバージョンで異なる構成にする方法は不明
 
 GitHub Release を使うことで、Configure option やPHP拡張をカスタマイズしたパッケージをアップロードし、
 ネットワークが高速なら数秒でインストールできるPHPを用意できます。
@@ -176,7 +176,6 @@ sudo mkdir -p /opt/mise/data && sudo chown -R "$(id -u):$(id -g)" /opt/mise/data
 
 PHPビルド時に指定された `--prefix={パス}` と同じディレクトリにインストールする必要があるので同じディレクトリを作ります。
 
-
 2. `MISE_DATA_DIR` 環境変数を `~/.zshrc` に追記する
 
 ```
@@ -215,10 +214,10 @@ mise install
 
 # 参考ドキュメント
 
-* [GitHub Backend - mise-en-place](https://mise.jdx.dev/dev-tools/backends/github.html)
-* [GitHub Tokens - mise-en-place](https://mise.jdx.dev/dev-tools/github-tokens.html)
+- [GitHub Backend - mise-en-place](https://mise.jdx.dev/dev-tools/backends/github.html)
+- [GitHub Tokens - mise-en-place](https://mise.jdx.dev/dev-tools/github-tokens.html)
 
 # 2026/04/01 12:20 更新
 
-* vfox-php を使う場合openssl@1.1に依存しておりEOLを迎えているので、php-buildを使うよう変更した。
-* resolve-tag jobを追加し、 `mise upgrade` で更新可能にした。
+- vfox-php を使う場合openssl@1.1に依存しておりEOLを迎えているので、php-buildを使うよう変更した。
+- resolve-tag jobを追加し、 `mise upgrade` で更新可能にした。

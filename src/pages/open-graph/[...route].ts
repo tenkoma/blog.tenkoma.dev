@@ -14,8 +14,8 @@ const pages = posts.reduce(
       title: post.data.customOGImage ? "" : post.data.title,
       description: post.data.customOGImage
         ? ""
-        : ((post.data.shortDescription ?? post.data.description ?? "") + "\n\n" + SITE_TITLE),
-      customOGImage: post.data.customOGImage?.replace("../..", "/src").replace('/src', './src'),
+        : (post.data.shortDescription ?? post.data.description ?? "") + "\n\n" + SITE_TITLE,
+      customOGImage: post.data.customOGImage?.replace("../..", "/src").replace("/src", "./src"),
     };
     return acc;
   },
@@ -54,23 +54,30 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   },
 
   // For each page, this callback will be used to customize the OpenGraph image.
-  getImageOptions: (_, page: { title: string; description: string; useHero?: boolean; customOGImage?: string }) => ({
+  getImageOptions: (
+    _,
+    page: { title: string; description: string; useHero?: boolean; customOGImage?: string },
+  ) => ({
     title: page.title,
     description: page.description,
 
-    bgGradient: page.customOGImage ? undefined : [hexToRgb(baseColor[950]), hexToRgb(baseColor[950]), hexToRgb(accentColor[950])],
+    bgGradient: page.customOGImage
+      ? undefined
+      : [hexToRgb(baseColor[950]), hexToRgb(baseColor[950]), hexToRgb(accentColor[950])],
 
     bgImage: {
       path: page.customOGImage || "./src/assets/backgrounds/noise.png",
       fit: "cover",
     },
-    border: page.customOGImage ? undefined : {
-      color: hexToRgb(accentColor[600]),
-  
-      width: 8,
-  
-      side: "block-start",
-    },
+    border: page.customOGImage
+      ? undefined
+      : {
+          color: hexToRgb(accentColor[600]),
+
+          width: 8,
+
+          side: "block-start",
+        },
     font: {
       /** Font style for the page title. */
       title: {
