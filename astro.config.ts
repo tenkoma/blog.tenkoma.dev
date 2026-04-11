@@ -51,7 +51,7 @@ export default defineConfig({
     }),
     mdx(),
     sitemap(),
-svelte(),
+    svelte(),
   ],
 
   markdown: {
