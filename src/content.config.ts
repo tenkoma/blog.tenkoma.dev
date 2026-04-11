@@ -27,12 +27,6 @@ const blog = defineCollection({
     // useful for sharing drafts with other people
     hidden: z.boolean().optional(),
 
-    // whether to disable bluesky comments
-    disableComments: z.boolean().optional(),
-
-    // whether to disable bluesky likes
-    disableLikes: z.boolean().optional(),
-
     // short description will be used for og image (fallback to description)
     shortDescription: z.string().optional(),
 
@@ -58,13 +52,4 @@ const blog = defineCollection({
   }),
 });
 
-import { authorFeedLoader } from "@ascorbic/bluesky-loader";
-import { BLUESKY_IDENTIFIER } from "./config.ts";
-
-const posts = defineCollection({
-  loader: authorFeedLoader({
-    identifier: BLUESKY_IDENTIFIER,
-  }),
-});
-
-export const collections = { blog, posts };
+export const collections = { blog };
