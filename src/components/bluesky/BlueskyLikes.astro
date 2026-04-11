@@ -20,7 +20,6 @@ const post = posts
       new Date(a.data.indexedAt).getTime() -
       new Date(b.data.indexedAt).getTime()
   )
-  // @ts-expect-error: weird type fuckery
   .find((post) => post.data.embed?.external?.uri === url);
 
 let likesData = post ? await getLikes(post.data.uri) : [];

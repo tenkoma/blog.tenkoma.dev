@@ -21,7 +21,7 @@ const pages = posts.reduce(
   },
   {} as Record<
     string,
-    { title: string; description: string; customOGImage?: string }
+    { title: string; description: string; useHero?: boolean; customOGImage?: string }
   >,
 );
 
@@ -36,7 +36,7 @@ function hexToRgb(hex: string): [number, number, number] {
 const accentColor = colors[ACCENT_COLOR];
 const baseColor = colors[BASE_COLOR];
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   // Tell us the name of your dynamic route segment.
   // In this case it’s `route`, because the file is named `[...route].ts`.
   param: "route",
@@ -54,7 +54,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
   },
 
   // For each page, this callback will be used to customize the OpenGraph image.
-  getImageOptions: (_, page) => ({
+  getImageOptions: (_, page: { title: string; description: string; useHero?: boolean; customOGImage?: string }) => ({
     title: page.title,
     description: page.description,
 
