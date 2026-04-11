@@ -3,6 +3,6 @@
 @plugin "@tailwindcss/forms";
 @config "../../tailwind.config.mjs";
 
-.prose {
+body {
   text-autospace: normal;
 }
