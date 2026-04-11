@@ -6,7 +6,6 @@ import rehypeMathjax from "rehype-mathjax";
 
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import svelte from "@astrojs/svelte";
 import { pagefind } from "vite-plugin-pagefind";
 
@@ -52,7 +51,6 @@ export default defineConfig({
     }),
     mdx(),
     sitemap(),
-    tailwind(),
     svelte(),
   ],
 
