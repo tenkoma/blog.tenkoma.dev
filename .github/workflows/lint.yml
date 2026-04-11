@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   lint:
-    runs-on: ubuntu-24.04-slim
+    runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v6
 
