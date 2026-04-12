@@ -1,0 +1,77 @@
+---
+title: "hub syncと同じようなコマンドをつくる"
+description: ""
+pubDate: "2026-04-12T15:45"
+published: true
+tags: ["git", "github"]
+---
+
+[GitHub CLI(`gh`コマンド)](https://cli.github.com/)がリリースされ、[hub](https://github.com/mislav/hub)はほぼ更新されなくなりましたが、 `hub sync` コマンドは便利だったので作ってみた。
+
+`~/.zprofile` か `~/.zshrc` に以下を追加する。
+
+```zsh
+alias ghs='github-sync'
+
+github-sync() {
+  local default
+  default=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+
+  if [[ -z "$default" ]]; then
+    git remote set-head origin --auto >/dev/null 2>&1
+    default=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||')
+  fi
+
+  if [[ -z "$default" ]]; then
+    default=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name' 2>/dev/null)
+  fi
+
+  if [[ -z "$default" ]]; then
+    echo "Error: Failed to retrieve the default branch" >&2
+    return 1
+  fi
+
+  echo "Default branch: $default"
+
+  git checkout "$default" || return 1
+  git fetch --prune origin || return 1
+  git merge --ff-only "origin/$default" || return 1
+
+  local merged
+  merged=$(git branch --merged "$default" \
+    | grep -v -E "^\*|^[[:space:]]*(${default}|master|main|develop|development)$")
+
+  if [[ -z "$merged" ]]; then
+    echo "No branches to delete"
+  else
+    echo "Branches to delete:"
+    echo "$merged"
+    echo "$merged" | xargs git branch -d
+  fi
+}
+```
+
+実行例
+
+```console
+% ghs
+Default branch: main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+From https://github.com/tenkoma/blog.tenkoma.dev
+ - [deleted]         (none)     -> origin/add-post-script
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 4 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (4/4), 2.00 KiB | 185.00 KiB/s, done.
+   bad3b0d..dfe8da3  main       -> origin/main
+Updating bad3b0d..dfe8da3
+Fast-forward
+ add-post.mjs | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100755 add-post.mjs
+Branches to delete:
+  add-post-script
+Deleted branch add-post-script (was 641c4b0).
+```
