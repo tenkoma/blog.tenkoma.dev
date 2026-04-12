@@ -31,9 +31,9 @@ Pre-commit hooks（husky + lint-staged）が `*.{js,ts,mjs,json,mdx,css}` に ox
 - **MDX** — ブログ記事のリッチコンテンツ（カスタム埋め込み、数式）
 - **Tailwind CSS** — スタイリング（PostCSS 経由）
 
-### パスエイリアス  
+### パスエイリアス
 
-- `astro.config.ts / tsconfig.json` で定義: `$components`, `$layouts`, `$pages`, `$assets` → `src/` 配下の各ディレクトリ  
+- `astro.config.ts / tsconfig.json` で定義: `$components`, `$layouts`, `$pages`, `$assets` → `src/` 配下の各ディレクトリ
 - `astro.config.ts` 側のみ: `$content` → `src/content/`
 
 ### ブログ記事
