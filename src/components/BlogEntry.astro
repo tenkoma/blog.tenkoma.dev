@@ -17,11 +17,11 @@ const { title, description, pubDate, slug, heroImage, tags, noImage } =
     )
   }
   <div>
-    <div class={"flex items-center gap-x-4 text-xs"}>
+    <div class={"flex items-center gap-x-4 gap-y-2 text-xs flex-wrap"}>
       <time datetime={pubDate} class="text-base-500 shrink-0">
         <FormattedDate date={pubDate} />
       </time>
-      <div class="flex gap-2 flex-wrap">
+      <div class="flex gap-x-2 gap-y-2 flex-wrap">
         {tags?.map((tag: string) => <Tag {tag} />)}
       </div>
     </div>
