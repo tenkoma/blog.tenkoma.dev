@@ -1,6 +1,6 @@
 import { OGImageRoute } from "astro-og-canvas";
 import { ACCENT_COLOR, BASE_COLOR, SITE_DESCRIPTION, SITE_TITLE } from "../../config.ts";
-import { getBlogPosts } from "src/utils";
+import { getBlogPosts } from "../../utils";
 import colors from "tailwindcss/colors";
 
 const posts = await getBlogPosts();

@@ -1,6 +1,6 @@
 ---
 import { POSTS_PER_PAGE } from "../config.ts";
-import { getBlogPosts } from "src/utils";
+import { getBlogPosts } from "../utils";
 import PostList from "$layouts/PostList.astro";
 
 const posts = (await getBlogPosts()).splice(0, POSTS_PER_PAGE);
