@@ -13,7 +13,8 @@ function titleToSlug(title) {
     .replace(/[^\w\s-]/g, "")
     .trim()
     .replace(/[\s_]+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 // --- メイン処理 ---
