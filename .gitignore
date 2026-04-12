@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 
 public/pagefind/
+
+# claude
+.claude/settings.local.json
