@@ -31,13 +31,13 @@ Blog posts live in `src/content/blog/<year>/<month>/slug.{md,mdx}`. The content 
 
 Configured in `astro.config.ts` via Vite:
 
-| Alias | Resolves to |
-|---|---|
+| Alias         | Resolves to      |
+| ------------- | ---------------- |
 | `$components` | `src/components` |
-| `$layouts` | `src/layouts` |
-| `$pages` | `src/pages` |
-| `$assets` | `src/assets` |
-| `$content` | `src/content` |
+| `$layouts`    | `src/layouts`    |
+| `$pages`      | `src/pages`      |
+| `$assets`     | `src/assets`     |
+| `$content`    | `src/content`    |
 
 ### Custom embeds
 
