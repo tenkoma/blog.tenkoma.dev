@@ -29,6 +29,7 @@ export default defineConfig({
         $pages: resolve("./src/pages"),
         $assets: resolve("./src/assets"),
         $content: resolve("./src/content"),
+        "src/embeds": resolve("./src/embeds"),
       },
     },
     ssr: {
