@@ -15,7 +15,7 @@ No test suite exists. The pre-commit hook runs `lint-staged` (auto-formats stage
 
 ## Architecture
 
-This is an **Astro 6 static blog** with Svelte components, Tailwind CSS v4, and MDX content.
+This is an **Astro static blog** with Svelte components, Tailwind CSS, and MDX content.
 
 ### Content
 
