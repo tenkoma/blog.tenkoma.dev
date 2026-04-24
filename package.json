@@ -52,6 +52,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,mjs,json,mdx,css}": "oxfmt --write"
+    "*.{js,ts,mjs,mdx,css}": "oxfmt --write",
+    "!(*-lock).json": "oxfmt --write"
   }
 }
