@@ -23,8 +23,8 @@
     "@astrojs/svelte": "^8.1.0",
     "@shikijs/transformers": "^4.0.0",
     "@tailwindcss/forms": "^0.5.9",
-    "@tailwindcss/postcss": "^4.2.4",
-    "astro": "^6.2.1",
+    "@tailwindcss/postcss": "^4.3.0",
+    "astro": "^6.3.1",
     "astro-custom-embeds": "^0.0.1",
     "astro-og-canvas": "^0.11.1",
     "cheerio": "^1.0.0",
@@ -37,12 +37,12 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@tailwindcss/typography": "^0.5.15",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "oxfmt": "^0.47.0",
-    "oxlint": "^1.62.0",
+    "lint-staged": "^17.0.4",
+    "oxfmt": "^0.48.0",
+    "oxlint": "^1.63.0",
     "pagefind": "^1.5.2",
     "vite-plugin-pagefind": "^1.1.1"
   },
