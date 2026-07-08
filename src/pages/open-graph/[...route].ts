@@ -37,10 +37,6 @@ const accentColor = colors[ACCENT_COLOR];
 const baseColor = colors[BASE_COLOR];
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  // Tell us the name of your dynamic route segment.
-  // In this case it’s `route`, because the file is named `[...route].ts`.
-  param: "route",
-
   // A collection of pages to generate images for.
   // The keys of this object are used to generate the path for that image.
   // In this example, we generate one image at `/open-graph/example.png`.
