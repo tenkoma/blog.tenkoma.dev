@@ -8,6 +8,11 @@ updates:
       all-dependencies:
         patterns:
           - "*"
+    ignore:
+      # @astrojs/check が TypeScript 7 (Go 製ネイティブ実装) 未対応のため
+      # peerDependencies: "^5.0.0 || ^6.0.0"。対応され次第このルールを外す
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
