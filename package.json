@@ -49,6 +49,9 @@
   },
   "overrides": {
     "@shikijs/types": "4.3.1",
+    "speech-rule-engine": {
+      "@xmldom/xmldom": "0.9.12"
+    },
     "yaml-language-server": {
       "yaml": "2.8.3"
     }
